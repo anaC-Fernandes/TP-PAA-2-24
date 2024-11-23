@@ -24,7 +24,7 @@ O objetivo é implementar um algoritmo de **backtracking** em C para encontrar a
 ### Passos
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu_usuario/TP-PAA-2-24.git
+   git clone https://github.com/anaC-Fernandes/TP-PAA-2-24.git
    ```
 2. Compile o programa:
    ```bash
