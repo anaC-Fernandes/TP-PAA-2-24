@@ -5,11 +5,13 @@ void get_dimensões(FILE* arquivo, int* dimensoes) {
     fscanf(arquivo, "%d %d %d", &dimensoes[0], &dimensoes[1], &dimensoes[2]);
 }
 
-labirinto Alocar_Labirinto(int linhas, int colunas) {
+labirinto Alocar_Labirinto(int linhas, int colunas, ordem_matriz *ordem) {
     labirinto tabuleiro = (labirinto)malloc(linhas * sizeof(celula*));
     for (int i = 0; i < linhas; i++) {
         tabuleiro[i] = (celula*)malloc(colunas * sizeof(celula));
     }
+    ordem->coluna = colunas;
+    ordem->linha = linhas;
     return tabuleiro;
 }
 
@@ -59,6 +61,7 @@ void Preencher_Labirinto(labirinto* tabuleiro,int linhas, int colunas, FILE *arq
                 default:
                     break;
             }
+            (*tabuleiro)[i][j].isvisited = false;
         }
     }
 }

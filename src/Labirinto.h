@@ -9,7 +9,14 @@ typedef struct cell {
     bool isstart;   // eComeço
     bool isdoor;     // ePorta
     bool iskey;     // eChave
+    bool isvisited; // eVisitado
+
 } celula;
+
+typedef struct ordem_matriz {
+    int linhas;
+    int colunas;
+}ordem_matriz;
 
 typedef celula** labirinto;
 
