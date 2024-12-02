@@ -48,7 +48,7 @@ int main(){
                 printf("\033[2J\033[1;1H"); //Limpa a tela
 
                 if (tabuleiro != NULL) {
-                    Labirinto_Gráfico(infos[0],infos[1],tabuleiro);
+                    Labirinto_Grafico(infos[0],infos[1],tabuleiro);
                     break;
                 }
                 else {
@@ -106,14 +106,24 @@ void menu_processamento(int tempo_total){
     sleep(2);
 }
 
-FILE* menu_arquivo(){
-    char caminho [256];
-    printf("Digite o caminho do arquivo: ");
-    scanf("%s", caminho);
-    //strcpy(caminho, "/home/Lucas/Documentos/Codes/C/Trabalhos/TP-PAA-2-24/lib/labirinto.txt");
-    FILE* arquivo = fopen(caminho, "r");
+FILE* menu_arquivo() {
+    char nome_arquivo[256];
+    char caminho_completo[512]; // Buffer para armazenar o caminho completo
+    
+    printf("Digite o nome do arquivo (exemplo: labirinto.txt): ");
+    scanf("%s", nome_arquivo);
+    
+    // Prefixar o caminho base ../lib/
+    strcpy(caminho_completo, "../lib/");
+    strcat(caminho_completo, nome_arquivo);
+    
+    // Abrir o arquivo
+    FILE* arquivo = fopen(caminho_completo, "r");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo\n");
+        printf("Erro ao abrir o arquivo: %s\n", caminho_completo);
+    } else {
+        printf("Arquivo aberto com sucesso: %s\n", caminho_completo);
     }
+    
     return arquivo;
 }

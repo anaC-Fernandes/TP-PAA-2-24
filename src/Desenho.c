@@ -137,7 +137,7 @@ void Grafico_Labirinto(char** grafico, int linhas, int colunas) {
     }
 }
 
-void Labirinto_Gráfico(int linhas,int colunas,labirinto tabuleiro) {
+void Labirinto_Grafico(int linhas,int colunas,labirinto tabuleiro) {
     char** desenho = malloc((linhas + 2) * sizeof(char*));
     for (int i = 0; i < linhas + 2; i++) {
         desenho[i] = malloc((colunas + 2) * sizeof(char));
