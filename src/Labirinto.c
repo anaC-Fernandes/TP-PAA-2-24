@@ -56,9 +56,19 @@ void Preencher_Labirinto(labirinto* tabuleiro,int linhas, int colunas, FILE *arq
                     (*tabuleiro)[i][j].iskey = false;
                     break;
 
+                case '4':
+                    strcpy((*tabuleiro)[i][j].cor, "Amarelo");
+                    (*tabuleiro)[i][j].numero = 4;
+                    (*tabuleiro)[i][j].iswall = false;
+                    (*tabuleiro)[i][j].isstart = false;
+                    (*tabuleiro)[i][j].isdoor = false;
+                    (*tabuleiro)[i][j].iskey = true;
+                    break;
+
                 default:
                     break;
             }
+            (*tabuleiro)[i][j].isvisited = false;
         }
     }
 }
@@ -73,13 +83,17 @@ void Destrutor_Labirinto(labirinto tabuleiro, int linhas) {
 void Imprimir_Labirinto(labirinto tabuleiro, int linhas, int colunas) {
     for (int i = 0; i < linhas; i++) {
         for (int j = 0; j < colunas; j++) {
-            printf("Cor: %s\n", tabuleiro[i][j].cor);
-            printf("Número: %d\n", tabuleiro[i][j].numero);
-            printf("Começo: %s\n", tabuleiro[i][j].isstart ? "Sim" : "Não");
-            printf("Chave: %s\n", tabuleiro[i][j].iskey ? "Sim" : "Não");
-            printf("Porta: %s\n", tabuleiro[i][j].isdoor ? "Sim" : "Não");
-            printf("Parede: %s\n", tabuleiro[i][j].iswall ? "Sim" : "Não");
-            printf("--------------------\n");
+            printf("%c ", tabuleiro[i][j].numero);
         }
+        printf("\n");
     }
+}
+
+labirinto Processar_Arquivo(FILE* arquivo, int* dimensoes) {
+    get_dimensões(arquivo, dimensoes);
+    int linhas = dimensoes[0];
+    int colunas = dimensoes[1];
+    labirinto tabuleiro = Alocar_Labirinto(linhas, colunas);
+    Preencher_Labirinto(&tabuleiro, linhas, colunas, arquivo);
+    return tabuleiro;
 }

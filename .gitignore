@@ -1,6 +1,6 @@
-.output/
+output/
 .vscode/
 *.o
 *.out
 *.exe
-/output/
+src/output/
