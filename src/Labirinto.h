@@ -9,6 +9,7 @@ typedef struct cell {
     bool isstart;   // eComeço
     bool isdoor;     // ePorta
     bool iskey;     // eChave
+    bool isvisited; // eVisitado
 } celula;
 
 typedef celula** labirinto;
