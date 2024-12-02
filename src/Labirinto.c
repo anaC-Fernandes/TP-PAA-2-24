@@ -1,5 +1,6 @@
 #include "Labirinto.h"
 #include <string.h>
+#include <stdio.h>
 
 void get_dimensões(FILE* arquivo, int* dimensoes) {
     fscanf(arquivo, "%d %d %d", &dimensoes[0], &dimensoes[1], &dimensoes[2]);
