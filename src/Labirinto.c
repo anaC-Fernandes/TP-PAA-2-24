@@ -1,7 +1,11 @@
-#include "Labirinto.h"
+#include <stdlib.h>
 #include <string.h>
+<<<<<<< Updated upstream
 #include <stdio.h>
 
+=======
+#include "Labirinto.h"
+>>>>>>> Stashed changes
 void get_dimensões(FILE* arquivo, int* dimensoes) {
     fscanf(arquivo, "%d %d %d", &dimensoes[0], &dimensoes[1], &dimensoes[2]);
 }
@@ -90,10 +94,12 @@ void Imprimir_Labirinto(labirinto tabuleiro, int linhas, int colunas) {
     }
 }
 
-labirinto Processar_Arquivo(FILE* arquivo, int* dimensoes) {
+labirinto Processar_Arquivo(FILE* arquivo, int* dimensoes, ordem_matriz *ordem) {
     get_dimensões(arquivo, dimensoes);
     int linhas = dimensoes[0];
     int colunas = dimensoes[1];
+    ordem->colunas = colunas;
+    ordem->linhas = linhas;
     labirinto tabuleiro = Alocar_Labirinto(linhas, colunas);
     Preencher_Labirinto(&tabuleiro, linhas, colunas, arquivo);
     return tabuleiro;

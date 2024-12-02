@@ -1,5 +1,5 @@
-#include "Labirinto.c"
-
+#include "Desenho.h"
+#include <string.h>
 void Alocar_Labirinto_Grafico(char** desenho, int linhas, int colunas, labirinto tabuleiro) {
     // Construir a moldura
     for (int i = 0; i < linhas + 2; i++) {

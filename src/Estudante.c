@@ -55,3 +55,12 @@ bool Movimenta_estudante(labirinto lab, estudante* aluno, ordem_matriz ordem) {
     aluno->qtde_movimentos++;
     return false;
 }
+
+estudante *criaEstudante(int qtd_chave, int linha, int coluna) {
+    estudante *temp = (estudante*) malloc(sizeof(estudante));
+    temp->coluna_atual = coluna;
+    temp->linha_atual = linha;
+    temp->quantidade_chave = qtd_chave;
+    temp->qtde_movimentos = 0;
+    return temp;
+}

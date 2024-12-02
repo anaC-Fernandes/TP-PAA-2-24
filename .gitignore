@@ -4,3 +4,4 @@ output/
 *.out
 *.exe
 src/output/
+src/teste.c
