@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>  // Para a função sleep
-#include "Desenho.h"
+#include "Desenho.c"
 #include <string.h>
 
 
@@ -23,8 +23,7 @@ int main(){
         printf("║ 1. Carregar novo arquivo         ║\n");
         printf("║ 2. Processar e exibir respostas  ║\n");
         printf("║ 3. Mostrar desenho do labirinto  ║\n");
-        printf("║ 4. Modo análise                  ║\n");
-        printf("║ 5. Sair                          ║\n");
+        printf("║ 4. Sair                          ║\n");
         printf("╚══════════════════════════════════╝\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
@@ -37,9 +36,19 @@ int main(){
                 if (arquivo != NULL) {
                     //printf("\033[2J\033[1;1H"); //Limpa a tela
                     ordem_matriz ordem;
+                    int inicio[2] = {-1, -1};
+
                     tabuleiro = Processar_Arquivo(arquivo,infos, &ordem);
                     printf("Ordem Matriz: %d %d\n", ordem.linhas, ordem.colunas);
-                    estudante *aluno = criaEstudante(0, 9, 4); // pedir o usuário para informar a quantidade de chaves e localização do aluno?
+                    Obtem_inicio(tabuleiro, &ordem, inicio);
+                    if (inicio[0] == -1 || inicio[1] == -1) {
+                        printf("O arquivo de entrada não possui a informação da posição de início\n");
+                        printf("Selecione um arquivo válido\n");
+                        sleep(1);
+                        continue;
+                    }
+                    
+                    estudante *aluno = criaEstudante(infos[2], inicio[0], inicio[1]); // pedir o usuário para informar a quantidade de chaves e localização do aluno?
                     const int resultado = Movimenta_estudante(tabuleiro, aluno, ordem, &recMax, &recNum, 0); //Backtracking();
                     printf("Linhas: %d\nColunas: %d\n", aluno->linha_atual, aluno->coluna_atual);
                     //menu_processamento(5);
@@ -76,21 +85,13 @@ int main(){
                     continue;
                 }
             case 4:
-                if (tabuleiro != NULL) {
-                    //Modo_Analise();
-                    break;
-                }
-                else {
-                    printf("Labirinto não processado!\n");
-                    sleep(1);
-                    continue;
-                }
-            case 5:
                 printf("Saindo...\n");
                 exit(1);
                 break;
             default:
-                printf("Opção inválida!\n");
+                printf("Saindo...\n");
+                exit(1);
+                break;
         }
     }while(1);
 }
@@ -129,8 +130,8 @@ FILE* menu_arquivo(){
     char caminho [256];
     /*printf("Digite o caminho do arquivo: ");
     scanf("%s", caminho);*/
-    //strcpy(caminho, "/mnt/c/Users/gabri/OneDrive/Documentos/GitHub/TP-PAA-2-24/lib/labirinto.txt"); //linux
-    strcpy(caminho, "../lib/labirinto.txt");
+    strcpy(caminho, "/home/Lucas/Documentos/Codes/C/TP-PAA-2-24/lib/labirinto.txt");
+    //strcpy(caminho, "../lib/labirinto.txt");
     FILE* arquivo = fopen(caminho, "r");
     printf("A\n");
     if (arquivo == NULL) {

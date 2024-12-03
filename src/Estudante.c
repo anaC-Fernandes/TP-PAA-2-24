@@ -76,3 +76,15 @@ estudante *criaEstudante(int qtd_chave, int linha, int coluna) {
     temp->qtde_movimentos = 0;
     return temp;
 }
+
+void Obtem_inicio(labirinto tabuleiro, ordem_matriz* ordem,int *posição) {
+    for (int i = 0; i < ordem->linhas; i++) {
+        for (int j = 0; j < ordem->colunas; j++){
+            if (tabuleiro[i][j].isstart){
+                posição[0] = i;
+                posição[1] = j;
+            }
+        }
+    }
+    printf("O arquivo de entrada não possui a informação da posição de início");
+}
