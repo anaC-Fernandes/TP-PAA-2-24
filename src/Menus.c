@@ -58,7 +58,7 @@ int main(){
                 printf("\033[2J\033[1;1H"); //Limpa a tela
 
                 if (tabuleiro != NULL) {
-                    Labirinto_Gráfico(infos[0],infos[1],tabuleiro);
+                    Labirinto_Grafico(infos[0],infos[1],tabuleiro);
                     break;
                 }
                 else {
@@ -121,7 +121,7 @@ FILE* menu_arquivo(){
     /*printf("Digite o caminho do arquivo: ");
     scanf("%s", caminho);*/
     //strcpy(caminho, "/mnt/c/Users/gabri/OneDrive/Documentos/GitHub/TP-PAA-2-24/lib/labirinto.txt"); //linux
-    strcpy(caminho, "C:\\Users\\gabri\\OneDrive\\Documentos\\GitHub\\TP-PAA-2-24\\lib\\labirinto.txt");
+    strcpy(caminho, "../lib/labirinto.txt");
     FILE* arquivo = fopen(caminho, "r");
     printf("A\n");
     if (arquivo == NULL) {
