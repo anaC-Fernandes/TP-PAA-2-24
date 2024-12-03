@@ -13,6 +13,7 @@ int main(){
     int infos[3];
     FILE* arquivo = NULL;
     labirinto tabuleiro = NULL;
+    int recMax=0,recNum=0;
 
     do{
         //printf("\033[2J\033[1;1H"); //Limpa a tela
@@ -39,7 +40,7 @@ int main(){
                     tabuleiro = Processar_Arquivo(arquivo,infos, &ordem);
                     printf("Ordem Matriz: %d %d\n", ordem.linhas, ordem.colunas);
                     estudante *aluno = criaEstudante(0, 9, 4); // pedir o usuário para informar a quantidade de chaves e localização do aluno?
-                    const int resultado = Movimenta_estudante(tabuleiro, aluno, ordem); //Backtracking();
+                    const int resultado = Movimenta_estudante(tabuleiro, aluno, ordem, &recMax, &recNum, 0); //Backtracking();
                     printf("Linhas: %d\nColunas: %d\n", aluno->linha_atual, aluno->coluna_atual);
                     //menu_processamento(5);
                     if(resultado) {
@@ -47,6 +48,14 @@ int main(){
                     }else {
                         printf("O estudante se movimentou %d vezes e percebeu que o labirinto nao tem saida.\n", aluno->qtde_movimentos);
                     }
+                    
+                    #ifdef ANALISE  
+                        #if ANALISE == 1
+                            printf("MODO ANALISE:\n  Chamadas Recursivas: %d\n  Nivel maximo recursividade: %d\n", recNum, recMax);
+                        #endif
+                    #endif
+                    recNum = 0;
+                    recMax = 0;
                     break;
                 }
                 else {

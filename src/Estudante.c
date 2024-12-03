@@ -33,7 +33,17 @@ bool Mov_valido(int l, int c, labirinto lab, estudante* aluno, ordem_matriz orde
     return true;
 }
 
-bool Movimenta_estudante(labirinto lab, estudante* aluno, ordem_matriz ordem) {
+bool Movimenta_estudante(labirinto lab, estudante* aluno, ordem_matriz ordem, int* recMax, int* recNum, int n) {
+    
+    #ifdef ANALISE  
+        #if ANALISE == 1
+            *recNum = *recNum + 1;
+            if(n > *recMax){
+                *recMax = n;
+            }
+        #endif
+    #endif
+    
     if (aluno->linha_atual == 0) return true;
 
     lab[aluno->linha_atual][aluno->coluna_atual].isvisited = true;
@@ -46,7 +56,7 @@ bool Movimenta_estudante(labirinto lab, estudante* aluno, ordem_matriz ordem) {
             aluno->linha_atual = nova_linha;
             aluno->coluna_atual = nova_coluna;
             aluno->qtde_movimentos++;
-            if (Movimenta_estudante(lab, aluno, ordem)) return true;
+            if (Movimenta_estudante(lab, aluno, ordem, recMax, recNum, n+1)) return true;
 
             aluno->linha_atual -= movimentos[i][0];
             aluno->coluna_atual -= movimentos[i][1];
