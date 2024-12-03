@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>  // Para a função sleep
+
 #include "Desenho.c"
+#include "Desenho.h"
+#include <string.h>
+
+>>>>>>> Stashed changes
 
 FILE* menu_arquivo();
 void menu_processamento();
@@ -13,7 +18,7 @@ int main(){
     labirinto tabuleiro = NULL;
 
     do{
-        printf("\033[2J\033[1;1H"); //Limpa a tela
+        /*printf("\033[2J\033[1;1H"); //Limpa a tela
         printf("╔══════════════════════════════════╗\n");
         printf("║        PROGRAMA LABIRINTO        ║\n");
         printf("╠══════════════════════════════════╣\n");
@@ -23,20 +28,34 @@ int main(){
         printf("║ 4. Modo análise                  ║\n");
         printf("║ 5. Sair                          ║\n");
         printf("╚══════════════════════════════════╝\n");
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opção: ");*/
         scanf("%d", &opcao);
         switch(opcao){
             case 1:
                 arquivo = menu_arquivo();
-                menu_processamento(7);
+                //menu_processamento(7);
                 break;
             case 2:
                 if (arquivo != NULL) {
                     printf("\033[2J\033[1;1H"); //Limpa a tela
+<<<<<<< Updated upstream
                     tabuleiro = Processar_Arquivo(arquivo,infos);
                     menu_processamento(5);
                     //Backtracking();
                     //Exibir respostas();
+=======
+                    ordem_matriz ordem;
+                    tabuleiro = Processar_Arquivo(arquivo,infos, &ordem);
+                    estudante *aluno = criaEstudante(1, 8, 4); // pedir o usuário para informar a quantidade de chaves e localização do aluno?
+                    const int resultado = Movimenta_estudante(tabuleiro, aluno, ordem); //Backtracking();
+                    printf("Linhas: %d\nColunas: %d\n", ordem.colunas, ordem.linhas);
+                    //menu_processamento(5);
+                    if(resultado) {
+                        printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", aluno->qtde_movimentos, aluno->coluna_atual+1);
+                    }else {
+                        printf("O estudante se movimentou %d vezes e percebeu que o labirinto nao tem saida.\n", aluno->qtde_movimentos);
+                    }
+>>>>>>> Stashed changes
                     break;
                 }
                 else {
@@ -106,6 +125,7 @@ void menu_processamento(int tempo_total){
     sleep(2);
 }
 
+<<<<<<< Updated upstream
 FILE* menu_arquivo() {
     char nome_arquivo[256];
     char caminho_completo[512]; // Buffer para armazenar o caminho completo
@@ -119,6 +139,15 @@ FILE* menu_arquivo() {
     
     // Abrir o arquivo
     FILE* arquivo = fopen(caminho_completo, "r");
+=======
+FILE* menu_arquivo(){
+    char caminho [256];
+    /*printf("Digite o caminho do arquivo: ");
+    scanf("%s", caminho);*/
+    strcpy(caminho, "C:\\Users\\gabri\\OneDrive\\Documentos\\GitHub\\TP-PAA-2-24\\lib\\labirinto.txt");
+    FILE* arquivo = fopen(caminho, "r");
+    printf("A\n");
+>>>>>>> Stashed changes
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo: %s\n", caminho_completo);
     } else {

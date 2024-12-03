@@ -3,7 +3,11 @@ project(src C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(src main.c
+add_executable(src
         Labirinto.c
         Estudante.c
-        Estudante.h)
+        Estudante.h
+        Desenho.h
+        Desenho.c
+        Menus.c
+        )
