@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
-<<<<<<< Updated upstream
+
 #include <stdio.h>
 
-=======
+
 #include "Labirinto.h"
->>>>>>> Stashed changes
+
 void get_dimensões(FILE* arquivo, int* dimensoes) {
     fscanf(arquivo, "%d %d %d", &dimensoes[0], &dimensoes[1], &dimensoes[2]);
 }

@@ -13,7 +13,10 @@ int movimentos[4][2] = {
 
 // Funções já definidas
 bool Mov_valido(int l, int c, labirinto lab, estudante* aluno, ordem_matriz ordem) {
+
     if (l < 0 || l >= ordem.linhas || c < 0 || c >= ordem.colunas) return false; // Fora dos limites
+    celula cel = lab[l][c];
+    printf("Celula %d %d Tipo: %d\n", l, c,  cel.numero);
     if (lab[l][c].iswall || lab[l][c].isvisited) return false; // Parede ou já visitado
 
     if (lab[l][c].isdoor) {
@@ -42,7 +45,7 @@ bool Movimenta_estudante(labirinto lab, estudante* aluno, ordem_matriz ordem) {
         if (Mov_valido(nova_linha, nova_coluna, lab, aluno, ordem)) {
             aluno->linha_atual = nova_linha;
             aluno->coluna_atual = nova_coluna;
-
+            aluno->qtde_movimentos++;
             if (Movimenta_estudante(lab, aluno, ordem)) return true;
 
             aluno->linha_atual -= movimentos[i][0];
@@ -52,7 +55,6 @@ bool Movimenta_estudante(labirinto lab, estudante* aluno, ordem_matriz ordem) {
     }
 
     lab[aluno->linha_atual][aluno->coluna_atual].isvisited = false;
-    aluno->qtde_movimentos++;
     return false;
 }
 

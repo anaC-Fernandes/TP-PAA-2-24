@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>  // Para a função sleep
 #include "Desenho.h"
-
+#include <string.h>
 
 
 FILE* menu_arquivo();
@@ -15,7 +15,7 @@ int main(){
     labirinto tabuleiro = NULL;
 
     do{
-        printf("\033[2J\033[1;1H"); //Limpa a tela
+        //printf("\033[2J\033[1;1H"); //Limpa a tela
         printf("╔══════════════════════════════════╗\n");
         printf("║        PROGRAMA LABIRINTO        ║\n");
         printf("╠══════════════════════════════════╣\n");
@@ -30,17 +30,23 @@ int main(){
         switch(opcao){
             case 1:
                 arquivo = menu_arquivo();
-                menu_processamento(7);
+                //menu_processamento(7);
                 break;
             case 2:
                 if (arquivo != NULL) {
-                    printf("\033[2J\033[1;1H"); //Limpa a tela
+                    //printf("\033[2J\033[1;1H"); //Limpa a tela
                     ordem_matriz ordem;
                     tabuleiro = Processar_Arquivo(arquivo,infos, &ordem);
-                    estudante *aluno = criaEstudante(1, 8, 4); // pedir o usuário para informar a quantidade de chaves e localização do aluno?
-                    int resultado = Movimenta_estudante(tabuleiro, aluno, ordem); //Backtracking();
-                    menu_processamento(5);
-                    //Exibir respostas();
+                    printf("Ordem Matriz: %d %d\n", ordem.linhas, ordem.colunas);
+                    estudante *aluno = criaEstudante(0, 9, 4); // pedir o usuário para informar a quantidade de chaves e localização do aluno?
+                    const int resultado = Movimenta_estudante(tabuleiro, aluno, ordem); //Backtracking();
+                    printf("Linhas: %d\nColunas: %d\n", aluno->linha_atual, aluno->coluna_atual);
+                    //menu_processamento(5);
+                    if(resultado) {
+                        printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", aluno->qtde_movimentos, aluno->coluna_atual+1);
+                    }else {
+                        printf("O estudante se movimentou %d vezes e percebeu que o labirinto nao tem saida.\n", aluno->qtde_movimentos);
+                    }
                     break;
                 }
                 else {
@@ -114,10 +120,12 @@ FILE* menu_arquivo(){
     char caminho [256];
     /*printf("Digite o caminho do arquivo: ");
     scanf("%s", caminho);*/
+    //strcpy(caminho, "/mnt/c/Users/gabri/OneDrive/Documentos/GitHub/TP-PAA-2-24/lib/labirinto.txt"); //linux
     strcpy(caminho, "C:\\Users\\gabri\\OneDrive\\Documentos\\GitHub\\TP-PAA-2-24\\lib\\labirinto.txt");
     FILE* arquivo = fopen(caminho, "r");
+    printf("A\n");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo\n");
+        perror("Erro ao abrir o arquivo\n");
     }
     return arquivo;
 }

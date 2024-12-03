@@ -9,5 +9,6 @@ add_executable(src
         Estudante.h
         Desenho.h
         Desenho.c
+        Labirinto.h
         Menus.c
         )

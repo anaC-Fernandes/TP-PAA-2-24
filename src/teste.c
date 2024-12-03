@@ -3,6 +3,25 @@
 //
 #include "Estudante.h"
 #include <string.h>
+void imprime_labirinto(labirinto lab, ordem_matriz ordem, estudante aluno) {
+    for (int i = 0; i < ordem.linhas; i++) {
+        for (int j = 0; j < ordem.colunas; j++) {
+            if (i == aluno.linha_atual && j == aluno.coluna_atual) {
+                printf("E "); // Estudante
+            } else if (lab[i][j].iswall) {
+                printf("# "); // Parede
+            } else if (lab[i][j].isdoor) {
+                printf("D "); // Porta
+            } else if (lab[i][j].iskey) {
+                printf("K "); // Chave
+            } else {
+                printf(". "); // Caminho livre
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
 int main() {
     FILE *arquivo = fopen("C:\\Users\\gabri\\OneDrive\\Documentos\\GitHub\\TP-PAA-2-24\\lib\\labirinto.txt", "r");
     if (arquivo == NULL) {
@@ -15,12 +34,13 @@ int main() {
     labirinto tabuleiro = Processar_Arquivo(arquivo, dimensoes, &ordem);
     fclose(arquivo);
 
-    estudante *aluno = criaEstudante(0, 8 , 4);
+    estudante *aluno = criaEstudante(0, 9 , 4);
+    imprime_labirinto(tabuleiro, ordem, *aluno);
     Movimenta_estudante(tabuleiro, aluno, ordem);
 
     printf("Quantidade de movimentos: %d\n", aluno->qtde_movimentos);
     printf("Estudante chegou a primeira linha na coluna %d\n", aluno->coluna_atual);
-    Imprimir_Labirinto(tabuleiro, ordem.linhas, ordem.colunas);
+    imprime_labirinto(tabuleiro, ordem, *aluno);
     Destrutor_Labirinto(tabuleiro, ordem.linhas);
     free(aluno);
 
