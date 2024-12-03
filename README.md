@@ -66,3 +66,5 @@ Exemplo:
 -  Lucas Fonseca
 - Luiz Felipe Coutinho
 
+## Comando para compilar com o GTK (Necesário GTK3)
+gcc -o Programa main.c `pkg-config --cflags --libs gtk+-3.0`
