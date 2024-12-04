@@ -112,3 +112,91 @@ void print_matriz(labirinto tabuleiro, int linhas, int colunas){
         printf("\n");
     }
 }
+
+///////////// EXTRA GERADOR DE LABIRINTO /////////////
+void gerar_labirinto(int linhas, int colunas, int num_chaves, const char *arquivo_saida) {
+    // Inicializa o gerador de números aleatórios
+    srand(time(NULL));
+
+    // Abre o arquivo para escrita
+    FILE *arquivo = fopen(arquivo_saida, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
+
+    // Escreve o cabeçalho
+    fprintf(arquivo, "%d %d %d\n", linhas, colunas, num_chaves);
+
+    // Cria uma matriz para o labirinto
+    char** labirinto = (char**)malloc(linhas * sizeof(char*));
+    for (int i = 0; i < linhas; i++) {
+        labirinto[i] = (char*)malloc(colunas * sizeof(char));
+        for (int j = 0; j < colunas; j++) {
+            labirinto[i][j] = '2'; // Inicializa todas as células como '2' (parede)
+        }
+    }
+
+    // Define a posição inicial do estudante
+    int x = linhas - 1; // Última linha
+    int y = rand() % colunas; // Coluna aleatória
+    labirinto[x][y] = '0'; // Marca a posição inicial do estudante
+
+    // Cria o caminho até a primeira linha
+    while (x > 0) {
+        if (labirinto[x][y] != '0') {
+            labirinto[x][y] = '1'; // Marca o caminho como célula transitável
+        }
+
+        // Escolhe uma direção: 0 = cima, 1 = esquerda, 2 = direita
+        int direction = rand() % 3;
+        if (direction == 0 && x > 0) { // Cima
+            x--;
+        } else if (direction == 1 && y > 0) { // Esquerda
+            y--;
+        } else if (direction == 2 && y < colunas - 1) { // Direita
+            y++;
+        }
+    }
+    labirinto[0][y] = '1'; // Garante que a célula na primeira linha seja parte do caminho
+
+    // Insere um `3` no caminho, se permitido
+    if (num_chaves > 0) {
+        int inserir_tres = rand() % 2; // 50% de chance de inserir o `3`
+        if (inserir_tres) {
+            int tres_x, tres_y;
+            do {
+                tres_x = rand() % linhas;
+                tres_y = rand() % colunas;
+            } while (labirinto[tres_x][tres_y] != '1'); // Garante que o `3` está no caminho
+            labirinto[tres_x][tres_y] = '3';
+        }
+    }
+
+    // Preenche o restante do labirinto aleatoriamente
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            if (labirinto[i][j] == '2') { // Apenas paredes podem ser modificadas
+                labirinto[i][j] = (rand() % 2) ? '1' : '2'; // Caminho ou parede
+            }
+        }
+    }
+
+    // Escreve o labirinto no arquivo
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            fputc(labirinto[i][j], arquivo);
+        }
+        fputc('\n', arquivo); // Quebra de linha
+    }
+
+    // Libera a memória alocada para o labirinto
+    for (int i = 0; i < linhas; i++) {
+        free(labirinto[i]);
+    }
+    free(labirinto);
+
+    // Fecha o arquivo
+    fclose(arquivo);
+    printf("Labirinto salvo no arquivo '%s'.\n", arquivo_saida);
+}
