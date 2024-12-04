@@ -15,8 +15,8 @@ int movimentos[4][2] = {
 bool Mov_valido(int l, int c, labirinto lab, estudante* aluno, ordem_matriz ordem) {
 
     if (l < 0 || l >= ordem.linhas || c < 0 || c >= ordem.colunas) return false; // Fora dos limites
-    celula cel = lab[l][c];
-    printf("Linha %d Coluna %d\n", l, c);
+
+    printf("Linha: %d Coluna: %d\n", l, c);
     if (lab[l][c].iswall || lab[l][c].isvisited) return false; // Parede ou já visitado
 
     if (lab[l][c].isdoor) {
