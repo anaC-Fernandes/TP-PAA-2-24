@@ -3,7 +3,7 @@
 
 
 
-#include "Labirinto.c"
+#include "Labirinto.h"
 
 
 typedef struct {

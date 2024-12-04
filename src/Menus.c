@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>  // Para a função sleep
-#include "Desenho.c"
+#include "Desenho.h"
 #include <string.h>
 
 
@@ -39,6 +39,7 @@ int main(){
                     int inicio[2] = {-1, -1};
 
                     tabuleiro = Processar_Arquivo(arquivo,infos, &ordem);
+                    print_matriz(tabuleiro, 10, 10);
                     printf("Ordem Matriz: %d %d\n", ordem.linhas, ordem.colunas);
                     Obtem_inicio(tabuleiro, &ordem, inicio);
                     if (inicio[0] == -1 || inicio[1] == -1) {
@@ -48,9 +49,10 @@ int main(){
                         continue;
                     }
                     
-                    estudante *aluno = criaEstudante(infos[2], inicio[0], inicio[1]); // pedir o usuário para informar a quantidade de chaves e localização do aluno?
+                    estudante *aluno = criaEstudante(infos[2], inicio[0], inicio[1]);
                     const int resultado = Movimenta_estudante(tabuleiro, aluno, ordem, &recMax, &recNum, 0); //Backtracking();
-                    printf("Linhas: %d\nColunas: %d\n", aluno->linha_atual, aluno->coluna_atual);
+
+
                     //menu_processamento(5);
                     if(resultado) {
                         printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", aluno->qtde_movimentos, aluno->coluna_atual+1);
@@ -130,8 +132,8 @@ FILE* menu_arquivo(){
     char caminho [256];
     /*printf("Digite o caminho do arquivo: ");
     scanf("%s", caminho);*/
-    strcpy(caminho, "/home/Lucas/Documentos/Codes/C/TP-PAA-2-24/lib/labirinto.txt");
-    //strcpy(caminho, "../lib/labirinto.txt");
+    //strcpy(caminho, "/mnt/c/Users/gabri/OneDrive/Documentos/GitHub/TP-PAA-2-24/lib/labirinto.txt"); //linux
+    strcpy(caminho, "C:\\Users\\gabri\\OneDrive\\Documentos\\GitHub\\TP-PAA-2-24\\lib\\labirinto.txt"); //windows
     FILE* arquivo = fopen(caminho, "r");
     printf("A\n");
     if (arquivo == NULL) {

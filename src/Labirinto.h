@@ -24,3 +24,4 @@ void Preencher_Labirinto(labirinto* tabuleiro, int linhas, int colunas, FILE *ar
 void Destrutor_Labirinto(labirinto tabuleiro, int linhas);
 void Imprimir_Labirinto(labirinto tabuleiro, int linhas, int colunas);
 labirinto Processar_Arquivo(FILE* arquivo, int* dimensoes, ordem_matriz *ordem);
+void print_matriz(labirinto tabuleiro, int linhas, int colunas);

@@ -16,7 +16,7 @@ bool Mov_valido(int l, int c, labirinto lab, estudante* aluno, ordem_matriz orde
 
     if (l < 0 || l >= ordem.linhas || c < 0 || c >= ordem.colunas) return false; // Fora dos limites
     celula cel = lab[l][c];
-    printf("Celula %d %d Tipo: %d\n", l, c,  cel.numero);
+    printf("Linha %d Coluna %d\n", l, c);
     if (lab[l][c].iswall || lab[l][c].isvisited) return false; // Parede ou já visitado
 
     if (lab[l][c].isdoor) {
@@ -81,10 +81,11 @@ void Obtem_inicio(labirinto tabuleiro, ordem_matriz* ordem,int *posição) {
     for (int i = 0; i < ordem->linhas; i++) {
         for (int j = 0; j < ordem->colunas; j++){
             if (tabuleiro[i][j].isstart){
+                printf("Posição %d %d\n", i, j);
                 posição[0] = i;
                 posição[1] = j;
             }
         }
     }
-    printf("O arquivo de entrada não possui a informação da posição de início");
+    printf("O arquivo de entrada não possui a informação da posição de início\n");
 }

@@ -104,3 +104,11 @@ labirinto Processar_Arquivo(FILE* arquivo, int* dimensoes, ordem_matriz *ordem) 
     Preencher_Labirinto(&tabuleiro, linhas, colunas, arquivo);
     return tabuleiro;
 }
+void print_matriz(labirinto tabuleiro, int linhas, int colunas){
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            printf("%d ", tabuleiro[i][j].numero);
+        }
+        printf("\n");
+    }
+}

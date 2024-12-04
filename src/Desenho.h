@@ -2,7 +2,7 @@
 
 #ifndef DESENHO_H
 #define DESENHO_H
-#include "Estudante.c"
+#include "Estudante.h"
 
 
 void Alocar_Labirinto_Grafico(char** desenho, int linhas, int colunas, labirinto tabuleiro);
