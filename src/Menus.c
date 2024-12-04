@@ -23,7 +23,8 @@ int main(){
         printf("║ 1. Carregar novo arquivo         ║\n");
         printf("║ 2. Processar e exibir respostas  ║\n");
         printf("║ 3. Mostrar desenho do labirinto  ║\n");
-        printf("║ 4. Sair                          ║\n");
+        printf("║ 4. Gerar labirinto em arquivo    ║\n");
+        printf("║ 5. Sair                          ║\n");
         printf("╚══════════════════════════════════╝\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
@@ -87,6 +88,9 @@ int main(){
                     continue;
                 }
             case 4:
+                gerar_labirinto(10,10,3,"../lib/labirinto_gerado.txt");
+                break;
+            case 5:
                 printf("Saindo...\n");
                 exit(1);
                 break;
