@@ -36,6 +36,12 @@ int main(){
             case 2:
                 if (arquivo != NULL) {
                     //printf("\033[2J\033[1;1H"); //Limpa a tela
+                    
+                    if (tabuleiro != NULL) { //Se ja teve algum processamento anterior
+                        fclose(arquivo);
+                        arquivo = menu_arquivo();
+                    }
+                        
                     ordem_matriz ordem;
                     int inicio[2] = {-1, -1};
 
@@ -137,7 +143,7 @@ FILE* menu_arquivo(){
     /*printf("Digite o caminho do arquivo: ");
     scanf("%s", caminho);*/
     //strcpy(caminho, "/mnt/c/Users/gabri/OneDrive/Documentos/GitHub/TP-PAA-2-24/lib/labirinto.txt"); //linux
-    strcpy(caminho, "C:\\Users\\gabri\\OneDrive\\Documentos\\GitHub\\TP-PAA-2-24\\lib\\labirinto.txt"); //windows
+    strcpy(caminho, "../lib/labirinto.txt"); //windows
     FILE* arquivo = fopen(caminho, "r");
     printf("A\n");
     if (arquivo == NULL) {

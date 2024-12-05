@@ -77,13 +77,13 @@ estudante *criaEstudante(int qtd_chave, int linha, int coluna) {
     return temp;
 }
 
-void Obtem_inicio(labirinto tabuleiro, ordem_matriz* ordem,int *posição) {
+void Obtem_inicio(labirinto tabuleiro, ordem_matriz* ordem,int *posicao) {
     for (int i = 0; i < ordem->linhas; i++) {
         for (int j = 0; j < ordem->colunas; j++){
             if (tabuleiro[i][j].isstart){
                 printf("Posição %d %d\n", i, j);
-                posição[0] = i;
-                posição[1] = j;
+                posicao[0] = i;
+                posicao[1] = j;
             }
         }
     }
