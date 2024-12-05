@@ -1,10 +1,6 @@
 #ifndef ESTUDANTE_H
 #define ESTUDANTE_H
-
-
-
-#include "Labirinto.h"
-
+#include "Labirinto.c"
 
 typedef struct {
     int quantidade_chave;

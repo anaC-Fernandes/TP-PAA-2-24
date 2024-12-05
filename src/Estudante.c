@@ -35,14 +35,14 @@ bool Mov_valido(int l, int c, labirinto lab, estudante* aluno, ordem_matriz orde
 
 bool Movimenta_estudante(labirinto lab, estudante* aluno, ordem_matriz ordem, int* recMax, int* recNum, int n) {
     
-    #ifdef ANALISE  
-        #if ANALISE == 1
+    //#ifdef ANALISE  
+    //    #if ANALISE == 1
             *recNum = *recNum + 1;
             if(n > *recMax){
                 *recMax = n;
             }
-        #endif
-    #endif
+    //    #endif
+    //#endif
     
     if (aluno->linha_atual == 0) return true;
 
@@ -80,12 +80,11 @@ estudante *criaEstudante(int qtd_chave, int linha, int coluna) {
 void Obtem_inicio(labirinto tabuleiro, ordem_matriz* ordem,int *posicao) {
     for (int i = 0; i < ordem->linhas; i++) {
         for (int j = 0; j < ordem->colunas; j++){
-            if (tabuleiro[i][j].isstart){
+            if (tabuleiro[i][j].isstart == true){
                 printf("Posição %d %d\n", i, j);
                 posicao[0] = i;
                 posicao[1] = j;
             }
         }
     }
-    printf("O arquivo de entrada não possui a informação da posição de início\n");
 }

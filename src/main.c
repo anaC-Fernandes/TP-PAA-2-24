@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>  // Para a função sleep
+#include <string.h>
 #include "Desenho.c"
 
 FILE* menu_arquivo();
+char* Obtem_caminho();
 void menu_processamento();
 
 int main(){
     int opcao;
     int infos[3];
+    char* caminho = NULL;
     FILE* arquivo = NULL;
     labirinto tabuleiro = NULL;
+    int recMax=0,recNum=0;
 
     do{
         printf("\033[2J\033[1;1H"); //Limpa a tela
@@ -21,22 +25,57 @@ int main(){
         printf("║ 2. Processar e exibir respostas  ║\n");
         printf("║ 3. Mostrar desenho do labirinto  ║\n");
         printf("║ 4. Modo análise                  ║\n");
-        printf("║ 5. Sair                          ║\n");
+        printf("║ 5. Gerar labirinto em arquivo    ║\n");
+        printf("║ 6. Sair                          ║\n");
         printf("╚══════════════════════════════════╝\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
         switch(opcao){
             case 1:
-                arquivo = menu_arquivo();
-                menu_processamento(7);
+                caminho = Obtem_caminho();
+                arquivo = menu_arquivo(caminho);
+                printf("\033[2J\033[1;1H"); //Limpa a tela
+                menu_processamento(3);
                 break;
             case 2:
                 if (arquivo != NULL) {
-                    printf("\033[2J\033[1;1H"); //Limpa a tela
-                    tabuleiro = Processar_Arquivo(arquivo,infos);
-                    menu_processamento(5);
-                    //Backtracking();
-                    //Exibir respostas();
+                    //printf("\033[2J\033[1;1H"); //Limpa a tela
+                    recNum = 0;
+                    recMax = 0;
+                    menu_processamento(4);
+                    
+                    if (tabuleiro != NULL) { //Se ja teve algum processamento anterior
+                        fclose(arquivo);
+                        arquivo = fopen(caminho, "r");
+                    }
+                        
+                    ordem_matriz ordem;
+                    int inicio[2] = {-1, -1};
+
+                    tabuleiro = Processar_Arquivo(arquivo,infos, &ordem);
+                    printf("Ordem Matriz: %d %d\n", ordem.linhas, ordem.colunas);
+                    
+                    Obtem_inicio(tabuleiro, &ordem, inicio);
+                    if (inicio[0] == -1 || inicio[1] == -1) {
+                        printf("O arquivo de entrada não possui a informação da posição de início\n");
+                        printf("Selecione um arquivo válido\n");
+                        sleep(1);
+                        continue;
+                    }
+                    
+                    estudante *aluno = criaEstudante(infos[2], inicio[0], inicio[1]);
+                    const int resultado = Movimenta_estudante(tabuleiro, aluno, ordem, &recMax, &recNum, 0); //Backtracking();
+
+                    if(resultado) {
+                        printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", aluno->qtde_movimentos, aluno->coluna_atual+1);
+                    }else {
+                        printf("O estudante se movimentou %d vezes e percebeu que o labirinto nao tem saida.\n", aluno->qtde_movimentos);
+                    }
+                    printf("Pressione a tecla enter para voltar ao menu...\n");
+                    while (getchar() != '\n'); // Limpa o buffer
+                    getchar(); // Aguarda uma tecla
+
+                    free(aluno);
                     break;
                 }
                 else {
@@ -48,7 +87,7 @@ int main(){
                 printf("\033[2J\033[1;1H"); //Limpa a tela
 
                 if (tabuleiro != NULL) {
-                    Labirinto_Gráfico(infos[0],infos[1],tabuleiro);
+                    Labirinto_Grafico(infos[0],infos[1],tabuleiro);
                     break;
                 }
                 else {
@@ -57,21 +96,28 @@ int main(){
                     continue;
                 }
             case 4:
-                if (tabuleiro != NULL) {
-                    //Modo_Analise();
-                    break;
-                }
-                else {
-                    printf("Labirinto não processado!\n");
-                    sleep(1);
-                    continue;
-                }
+                printf("--------------------------------\n");
+                printf("MODO ANALISE:\n  Chamadas Recursivas: %d\n  Nivel maximo recursividade: %d\n", recNum, recMax);
+                printf("--------------------------------\n");
+                printf("Pressione a tecla enter para voltar ao menu...\n");
+                while (getchar() != '\n'); // Limpa o buffer
+                getchar(); // Aguarda uma tecla
+                break;
             case 5:
+                int linhas, colunas, num_chaves;
+                printf("Digite o número de linhas: ");
+                scanf("%d", &linhas);
+                printf("Digite o número de colunas: ");
+                scanf("%d", &colunas);
+                printf("Digite o número de chaves: ");
+                scanf("%d", &num_chaves);
+
+                gerar_labirinto(linhas,colunas,num_chaves,Obtem_caminho());
+                break;
+            default:
                 printf("Saindo...\n");
                 exit(1);
                 break;
-            default:
-                printf("Opção inválida!\n");
         }
     }while(1);
 }
@@ -106,14 +152,22 @@ void menu_processamento(int tempo_total){
     sleep(2);
 }
 
-FILE* menu_arquivo(){
-    char caminho [256];
+char* Obtem_caminho(){
+    char* caminho = (char*)malloc(256 * sizeof(char));
+    if (caminho == NULL) {
+        perror("Erro ao alocar memória\n");
+        exit(1);
+    }
     printf("Digite o caminho do arquivo: ");
     scanf("%s", caminho);
-    //strcpy(caminho, "/home/Lucas/Documentos/Codes/C/Trabalhos/TP-PAA-2-24/lib/labirinto.txt");
+    return caminho;
+}
+
+
+FILE* menu_arquivo(char *caminho){
     FILE* arquivo = fopen(caminho, "r");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo\n");
+        perror("Erro ao abrir o arquivo\n");
     }
     return arquivo;
 }

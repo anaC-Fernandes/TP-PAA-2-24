@@ -1,9 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
-
+#include <time.h>
 #include <stdio.h>
-
-
 #include "Labirinto.h"
 
 void get_dimensoes(FILE* arquivo, int* dimensoes) {
