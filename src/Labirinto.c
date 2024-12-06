@@ -160,14 +160,16 @@ void gerar_labirinto(int linhas, int colunas, int num_chaves, const char *arquiv
 
     // Insere um `3` no caminho, se permitido
     if (num_chaves > 0) {
-        int inserir_tres = rand() % 2; // 50% de chance de inserir o `3`
-        if (inserir_tres) {
-            int tres_x, tres_y;
-            do {
-                tres_x = rand() % linhas;
-                tres_y = rand() % colunas;
-            } while (labirinto[tres_x][tres_y] != '1'); // Garante que o `3` está no caminho
-            labirinto[tres_x][tres_y] = '3';
+        int inserir_tres = 1; // 50% de chance de inserir o `3`
+        if (inserir_tres == 1) {
+            for (int i = 0; i < rand() % num_chaves; i++) {
+                int tres_x, tres_y;
+                do {
+                    tres_x = rand() % linhas;
+                    tres_y = rand() % colunas;
+                } while (labirinto[tres_x][tres_y] != '1'); // Garante que o `3` está no caminho
+                labirinto[tres_x][tres_y] = '3';
+            }
         }
     }
 

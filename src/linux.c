@@ -3,7 +3,20 @@
 #include <unistd.h>  // Para a função sleep
 #include <string.h>
 #include "Desenho.c"
+#ifdef MODO
+    #if MODO == 1
+        #include "Interface.c"
+    #endif
+#endif
+/*Comando para compilar com o GTK3 (Precisa estar na pasta src do projeto):
+    gcc -o Nome_Programa linux.c -D MODO=1 `pkg-config --cflags --libs gtk+-3.0`
 
+  Comando para compilar sem o GTK3:
+    gcc -o Nome_Programa linux.c -D MODO=0 
+
+  Comando para executar:
+    ./Nome_Programa
+*/
 FILE* menu_arquivo();
 char* Obtem_caminho();
 void menu_processamento();
@@ -32,21 +45,32 @@ int main(){
         scanf("%d", &opcao);
         switch(opcao){
             case 1:
-                caminho = Obtem_caminho();
+                
+                #ifdef MODO
+                    #if MODO == 1
+                        caminho = select_file();
+                    #elif MODO == 0
+                        caminho = Obtem_caminho();
+                    #endif
+                #endif
+
                 arquivo = menu_arquivo(caminho);
-                printf("\033[2J\033[1;1H"); //Limpa a tela
-                menu_processamento(3);
+
+                //printf("\033[2J\033[1;1H"); //Limpa a tela
+                menu_processamento(2);
                 break;
             case 2:
                 if (arquivo != NULL) {
                     //printf("\033[2J\033[1;1H"); //Limpa a tela
                     recNum = 0;
                     recMax = 0;
-                    menu_processamento(4);
                     
                     if (tabuleiro != NULL) { //Se ja teve algum processamento anterior
                         fclose(arquivo);
                         arquivo = fopen(caminho, "r");
+                    }
+                    else {
+                        menu_processamento(2);
                     }
                         
                     ordem_matriz ordem;
@@ -87,7 +111,7 @@ int main(){
                 printf("\033[2J\033[1;1H"); //Limpa a tela
 
                 if (tabuleiro != NULL) {
-                    Labirinto_Grafico(infos[0],infos[1],tabuleiro);
+                    Labirinto_Grafico(infos[0],infos[1],tabuleiro,false);
                     break;
                 }
                 else {
@@ -112,7 +136,16 @@ int main(){
                 printf("Digite o número de chaves: ");
                 scanf("%d", &num_chaves);
 
-                gerar_labirinto(linhas,colunas,num_chaves,Obtem_caminho());
+                #ifdef MODO
+                    #if MODO == 1
+                        //Criar uma função para salvar arquivo em GTK3
+                        gerar_labirinto(linhas,colunas,num_chaves,select_folder_and_create_file());
+                    #else
+                        //gerar_labirinto(linhas,colunas,num_chaves,Obtem_caminho());//Versão Terminal
+                        gerar_labirinto(linhas,colunas,num_chaves,Obtem_caminho());
+                    #endif
+                #endif
+
                 break;
             default:
                 printf("Saindo...\n");
@@ -123,33 +156,21 @@ int main(){
 }
 
 void menu_processamento(int tempo_total){
-    // O loop vai simular o progresso do carregamento
-    for (int i = 0; i <= tempo_total; i++) {
-        // Calcula o progresso como porcentagem
-        int progresso = (i * 100) / tempo_total;
-
-        // O \r retorna o cursor para o início da linha, sobrescrevendo o que está nela
-        printf("\rCarregando: [");
-        
-        // Exibe a barra de progresso (com 50 blocos)
-        for (int j = 0; j < 50; j++) {
-            if (j < progresso / 2)  // Cada 2% de progresso adiciona um bloco
+    const int largura_barra = 50; // Largura da barra de progresso
+    printf("Carregando...\n");
+    for (int i = 0; i <= largura_barra; i++) {
+        printf("\r[");
+        for (int j = 0; j < largura_barra; j++) {
+            if (j < i)
                 printf("=");
             else
                 printf(" ");
         }
-
-        // Imprime a porcentagem de progresso
-        printf("] %d%%", progresso);
-        fflush(stdout);  // Garante que a saída seja exibida imediatamente
-
-        // Atraso para simular o progresso (1 segundo por iteração)
-        sleep(1);
+        printf("] %d%%", (i * 100) / largura_barra);
+        fflush(stdout); // Garante que a barra é atualizada no terminal
+        usleep((tempo_total * 1000000) / largura_barra); // Divide a duração total igualmente
     }
-
-    // Nova linha após o carregamento
-    printf("\nCarregamento concluído!\n");
-    sleep(2);
+    printf("\nConcluído!\n");
 }
 
 char* Obtem_caminho(){
