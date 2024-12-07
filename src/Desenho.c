@@ -1,4 +1,5 @@
 #include "Desenho.h"
+
 #include <string.h>
 void Alocar_Labirinto_Grafico(char** desenho, int linhas, int colunas, labirinto tabuleiro) {
     // Construir a moldura
@@ -93,7 +94,9 @@ void Grafico_Labirinto(char** grafico, int linhas, int colunas) {
                 break;
 
             case '4':
+                printf("\033[1;33m"); // Amarelo
                 printf("cc");  // Símbolo de chave
+                printf("\033[0m");  // Resetando a cor
                 break;
             
             case 'v':
@@ -137,17 +140,105 @@ void Grafico_Labirinto(char** grafico, int linhas, int colunas) {
     }
 }
 
-void Labirinto_Grafico(int linhas,int colunas,labirinto tabuleiro) {
+void Grafico_Labirinto_Windows(char** grafico,int linhas,int colunas){
+    //Limpar_Terminal_Windows()
+    for (int i = 0; i < linhas+2; i++) {
+        for (int j = 0; j < colunas+2; j++) {
+            switch (grafico[i][j]) {
+            case '0':
+                printf("\033[1;32m");  // Cor verde
+                printf("@@");  // Quadrado cheio em verde
+                printf("\033[0m");  // Resetando a cor
+                break;
+            
+            case '1':
+                printf("  ");  // Espaço em branco
+                break;
+
+            case '2':
+                printf("\033[1;34m");  // Cor azul
+                printf("##");  // Quadrado cheio em azul
+                printf("\033[0m");  // Resetando a cor
+                break;
+
+            case '3':
+                printf("\033[1;31m");  // Cor vermelha
+                printf("[]"); // Quadrado cheio em vermelho
+                printf("\033[0m");  // Resetando a cor
+                break;
+
+            case '4':
+                printf("\033[1;33m"); // Amarelo
+                printf("{}");  // Símbolo de chave
+                printf("\033[0m");  // Resetando a cor
+                break;
+            
+            case 'v':
+                printf("^");  // Símbolo de visitado
+                break;
+            
+            case '|':
+                if (j == 0){
+                    printf("| ");
+                } else {
+                    printf(" |");
+                }
+                break;
+            
+            case '=':
+                printf("--");
+                break;
+            
+            case '+':
+                printf("*-");
+                break;
+
+            case 'x':
+                printf("-*");
+                break;
+
+            case 'z':
+                printf("*-");
+                break;
+            
+            case 'y':
+                printf("-*");
+                break;
+            
+            default:
+                printf("Erro");
+                break;
+            }
+        }
+        printf("\n");
+    }
+}
+
+void Labirinto_Grafico(int linhas,int colunas,labirinto tabuleiro,bool windows) {
     char** desenho = malloc((linhas + 2) * sizeof(char*));
     for (int i = 0; i < linhas + 2; i++) {
         desenho[i] = malloc((colunas + 2) * sizeof(char));
     }
     Alocar_Labirinto_Grafico(desenho, linhas, colunas, tabuleiro);
-    Grafico_Labirinto(desenho, linhas, colunas);
+    //Imprimir_Labirinto_Grafico_Teste(desenho, linhas, colunas);
     
-    printf("Pressione a tecla enter para voltar ao menu...\n");
-    while (getchar() != '\n'); // Limpa o buffer
-    getchar(); // Aguarda uma tecla
+    //printf("Pressione a tecla enter para continuar...");
+    //while (getchar() != '\n'); // Limpa o buffer
+    //getchar(); // Aguarda uma tecla
+
+    if (windows == true){
+        Grafico_Labirinto_Windows(desenho,linhas,colunas);
+        printf("Pressione a tecla enter para voltar ao menu...\n");
+        while (getchar() != '\n'); // Limpa o buffer
+        getchar(); // Aguarda uma tecla        
+    }
+    else {
+        Grafico_Labirinto(desenho, linhas, colunas);
+        printf("Pressione a tecla enter para voltar ao menu...\n");
+        while (getchar() != '\n'); // Limpa o buffer
+        getchar(); // Aguarda uma tecla
+    }
+
     for (int i = 0; i < linhas + 2; i++) {
         free(desenho[i]);
     }

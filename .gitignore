@@ -3,5 +3,5 @@ output/
 *.o
 *.out
 *.exe
-src/output/
+src/output
 src/teste.c
